@@ -1,3 +1,10 @@
-[
-  
-]
+{
+"id_peticion": 101,
+"fecha": "2026-10-26T09:30:00",
+"id_mecanico": 1,
+"nombre_mecanico": "Carlos García",
+"accion": "calcular_incentivo",
+"resultado": "OK",
+"incentivo": 50.00,
+"error": null
+}

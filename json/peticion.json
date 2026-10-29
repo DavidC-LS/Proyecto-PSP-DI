@@ -1,3 +1,27 @@
-{
-  
+
+  {
+"mecanico": {
+"id_mecanico": 1,
+"nombre": "Carlos García",
+"especialidad": "Mecánica general"
+},
+"reparacion": {
+"id_reparacion": 15,
+"id_vehiculo": 3,
+"fecha": "2026-10-20",
+"descripcion": "Cambio de aceite y filtros",
+"estado": "Finalizada"
+},
+"trabajo": {
+"horas_trabajadas": 2.5,
+"coste_hora": 30.00
+},
+"factura": {
+"id_factura": 25,
+"importe": 75.00,
+"fecha": "2026-10-20",
+"resultado": "Pagada"
 }
+}
+
+

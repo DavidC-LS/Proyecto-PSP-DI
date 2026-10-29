@@ -1,3 +1,11 @@
 {
-  
+"id_mecanico": 1,
+"nombre_mecanico": "Carlos García",
+"id_reparacion": 15,
+"incentivo": {
+"concedido": true,
+"importe": 50.00,
+"motivo": "Reparación finalizada correctamente"
+},
+"resultado": "OK"
 }
