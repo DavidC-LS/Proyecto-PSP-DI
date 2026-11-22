@@ -1,0 +1,32 @@
+<Window x:Class="Proyecto_DI_PSP2.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Taller · Procesador de incentivos" Language="es-ES" Width="970" Height="580" MinWidth="720" MinHeight="420"
+        Loaded="AlAbrir" Closed="AlCerrar">
+    <DockPanel Margin="16">
+        <Menu DockPanel.Dock="Top" Margin="0,0,0,12">
+            <MenuItem Header="_Ayuda">
+                <MenuItem Header="_Acerca de" Click="MostrarAutores"/>
+            </MenuItem>
+        </Menu>
+        <TextBlock x:Name="EstadoServidor" DockPanel.Dock="Top" Margin="0,0,0,12" TextWrapping="Wrap"/>
+        <GroupBox DockPanel.Dock="Bottom" Header="Detalle de la petición" Margin="0,12,0,0">
+            <StackPanel Margin="10" DataContext="{Binding SelectedItem, ElementName=TablaHistorial}">
+                <TextBlock Text="{Binding Detalle}" TextWrapping="Wrap"/>
+                <TextBlock Text="{Binding Peticion.IdMecanico, StringFormat='Mecánico: {0}'}"/>
+                <TextBlock Text="{Binding Peticion.IdReparacion, StringFormat='Reparación: {0}'}"/>
+                <TextBlock Text="{Binding ErrorTecnico}" TextWrapping="Wrap"/>
+            </StackPanel>
+        </GroupBox>
+        <DataGrid x:Name="TablaHistorial" ItemsSource="{Binding Registros}" AutoGenerateColumns="False"
+                  IsReadOnly="True" SelectionMode="Single" CanUserAddRows="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Fecha y hora" Binding="{Binding Fecha, StringFormat=g}" Width="135"/>
+                <DataGridTextColumn Header="ID de petición" Binding="{Binding IdPeticion}" Width="2*"/>
+                <DataGridTextColumn Header="Operación" Binding="{Binding Operacion}" Width="*"/>
+                <DataGridTextColumn Header="Estado final" Binding="{Binding Estado}" Width="*"/>
+                <DataGridTextColumn Header="Error técnico" Binding="{Binding ErrorTecnico}" Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </DockPanel>
+</Window>

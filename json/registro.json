@@ -1,10 +1,19 @@
-{
-"id_peticion": 101,
-"fecha": "2026-10-26T09:30:00",
-"id_mecanico": 1,
-"nombre_mecanico": "Carlos García",
-"accion": "calcular_incentivo",
-"resultado": "OK",
-"incentivo": 50.00,
-"error": null
-}
+[
+  {
+    "Fecha": "2026-11-12T08:00:00",
+    "IdPeticion": "e2dd77d2-065c-4c7b-9474-8599c59364f1",
+    "Operacion": "Calcular incentivo",
+    "Estado": "Calculada",
+    "Detalle": "10 % de la mano de obra: 7,50 €",
+    "ErrorTecnico": null,
+    "Peticion": {
+      "IdPeticion": "e2dd77d2-065c-4c7b-9474-8599c59364f1",
+      "IdMecanico": 1,
+      "IdReparacion": 15,
+      "HorasTrabajadas": 2.5,
+      "CosteHora": 30,
+      "EstadoReparacion": "Finalizada",
+      "EstadoFactura": "Pagada"
+    }
+  }
+]
