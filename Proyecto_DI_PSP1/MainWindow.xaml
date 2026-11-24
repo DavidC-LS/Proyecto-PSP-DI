@@ -1,0 +1,258 @@
+<Window x:Class="Proyecto_DI_PSP1.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Taller · Gestión" Language="es-ES" Width="1100" Height="700" MinWidth="820" MinHeight="580">
+    <Window.Resources>
+        <Style TargetType="Button">
+            <Setter Property="Padding" Value="9,5"/>
+            <Setter Property="Margin" Value="0,0,5,0"/>
+        </Style>
+    </Window.Resources>
+    <DockPanel Margin="16">
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="_Datos">
+                <MenuItem Header="_Recargar" Command="{Binding Recargar}" IsEnabled="{Binding Conectado}"/>
+            </MenuItem>
+            <MenuItem Header="_Ayuda">
+                <MenuItem Header="_Modelo relacional" Click="MostrarModelo"/>
+            </MenuItem>
+        </Menu>
+        <TextBlock DockPanel.Dock="Top" Text="Gestión del taller" FontSize="26" FontWeight="SemiBold" Margin="0,12"/>
+        <GroupBox DockPanel.Dock="Top" Header="Conexión MySQL" Margin="0,0,0,12">
+            <StackPanel Orientation="Horizontal" Margin="8">
+                <Label Content="Servidor"/>
+                <TextBox Width="85" Text="{Binding Servidor, UpdateSourceTrigger=PropertyChanged}"/>
+                <Label Content="Puerto"/>
+                <TextBox Width="52" Text="{Binding Puerto, UpdateSourceTrigger=PropertyChanged}"/>
+                <Label Content="Base de datos"/>
+                <TextBox Width="110" Text="{Binding BaseDatos, UpdateSourceTrigger=PropertyChanged}"/>
+                <Label Content="Usuario"/>
+                <TextBox Width="78" Text="{Binding Usuario, UpdateSourceTrigger=PropertyChanged}"/>
+                <Label Content="Contraseña"/>
+                <PasswordBox Width="88" PasswordChanged="CambiarClave" Margin="0,0,8,0"/>
+                <Button Content="Conectar" Command="{Binding Conectar}"/>
+                <CheckBox Content="Conectado" IsChecked="{Binding Conectado, Mode=OneWay}" IsEnabled="False"
+                          VerticalAlignment="Center" Margin="8,0,0,0"/>
+            </StackPanel>
+        </GroupBox>
+        <Border DockPanel.Dock="Bottom" Background="#F0F4F8" Padding="10" Margin="0,12,0,0">
+            <TextBlock Text="{Binding Mensaje}" TextWrapping="Wrap"/>
+        </Border>
+        <TabControl IsEnabled="{Binding Conectado}">
+            <TabItem Header="Clientes">
+                <Grid Margin="12" DataContext="{Binding Clientes}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="255"/>
+                    </Grid.ColumnDefinitions>
+                    <DataGrid ItemsSource="{Binding Filas}" SelectedItem="{Binding Seleccionado, Mode=TwoWay}"
+                              AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Nombre" Binding="{Binding Nombre}" Width="*"/>
+                            <DataGridTextColumn Header="Teléfono" Binding="{Binding Telefono}" Width="*"/>
+                            <DataGridTextColumn Header="Correo electrónico" Binding="{Binding Email}" Width="*"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <GroupBox Grid.Column="1" Header="Ficha" Margin="12,0,0,0">
+                        <StackPanel Margin="10">
+                            <Label Content="Nombre"/>
+                            <TextBox Text="{Binding Formulario.Nombre, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            <Label Content="Teléfono"/>
+                            <TextBox Text="{Binding Formulario.Telefono, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            <Label Content="Correo electrónico"/>
+                            <TextBox Text="{Binding Formulario.Email, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            <StackPanel Orientation="Horizontal" Margin="0,12,0,0">
+                                <Button Content="Nuevo" Command="{Binding Nuevo}"/>
+                                <Button Content="Guardar" Command="{Binding Guardar}"/>
+                                <Button Content="Borrar" Command="{Binding Borrar}"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </GroupBox>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Vehículos">
+                <Grid Margin="12" DataContext="{Binding Vehiculos}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="255"/>
+                    </Grid.ColumnDefinitions>
+                    <DataGrid ItemsSource="{Binding Filas}" SelectedItem="{Binding Seleccionado, Mode=TwoWay}"
+                              AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Matrícula" Binding="{Binding Matricula}" Width="*"/>
+                            <DataGridTextColumn Header="Marca" Binding="{Binding Marca}" Width="*"/>
+                            <DataGridTextColumn Header="Modelo" Binding="{Binding Modelo}" Width="*"/>
+                            <DataGridTextColumn Header="Cliente (ID)" Binding="{Binding IdCliente}" Width="*"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <GroupBox Grid.Column="1" Header="Ficha" Margin="12,0,0,0">
+                        <StackPanel Margin="10">
+                            <Label Content="Matrícula"/>
+                            <TextBox Text="{Binding Formulario.Matricula, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            <Label Content="Marca"/>
+                            <TextBox Text="{Binding Formulario.Marca, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            <Label Content="Modelo"/>
+                            <TextBox Text="{Binding Formulario.Modelo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            <Label Content="Cliente"/>
+                            <ComboBox ItemsSource="{Binding DataContext.Clientes.Filas, RelativeSource={RelativeSource AncestorType=Window}}"
+                                      SelectedValuePath="IdCliente" DisplayMemberPath="Nombre" SelectedValue="{Binding Formulario.IdCliente, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            <StackPanel Orientation="Horizontal" Margin="0,12,0,0">
+                                <Button Content="Nuevo" Command="{Binding Nuevo}"/>
+                                <Button Content="Guardar" Command="{Binding Guardar}"/>
+                                <Button Content="Borrar" Command="{Binding Borrar}"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </GroupBox>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Mecánicos">
+                <Grid Margin="12" DataContext="{Binding Mecanicos}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="255"/>
+                    </Grid.ColumnDefinitions>
+                    <DataGrid ItemsSource="{Binding Filas}" SelectedItem="{Binding Seleccionado, Mode=TwoWay}"
+                              AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Nombre" Binding="{Binding Nombre}" Width="*"/>
+                            <DataGridTextColumn Header="Especialidad" Binding="{Binding Especialidad}" Width="*"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <GroupBox Grid.Column="1" Header="Ficha" Margin="12,0,0,0">
+                        <StackPanel Margin="10">
+                            <Label Content="Nombre"/>
+                            <TextBox Text="{Binding Formulario.Nombre, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            <Label Content="Especialidad"/>
+                            <TextBox Text="{Binding Formulario.Especialidad, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            <StackPanel Orientation="Horizontal" Margin="0,12,0,0">
+                                <Button Content="Nuevo" Command="{Binding Nuevo}"/>
+                                <Button Content="Guardar" Command="{Binding Guardar}"/>
+                                <Button Content="Borrar" Command="{Binding Borrar}"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </GroupBox>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Reparaciones">
+                <Grid Margin="12" DataContext="{Binding Reparaciones}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="255"/>
+                    </Grid.ColumnDefinitions>
+                    <DataGrid ItemsSource="{Binding Filas}" SelectedItem="{Binding Seleccionado, Mode=TwoWay}"
+                              AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Vehículo (ID)" Binding="{Binding IdVehiculo}" Width="*"/>
+                            <DataGridTextColumn Header="Fecha" Binding="{Binding Fecha, StringFormat=d}" Width="*"/>
+                            <DataGridTextColumn Header="Descripción" Binding="{Binding Descripcion}" Width="*"/>
+                            <DataGridTextColumn Header="Estado" Binding="{Binding Estado}" Width="*"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <GroupBox Grid.Column="1" Header="Ficha" Margin="12,0,0,0">
+                        <StackPanel Margin="10">
+                            <Label Content="Vehículo"/>
+                            <ComboBox ItemsSource="{Binding DataContext.Vehiculos.Filas, RelativeSource={RelativeSource AncestorType=Window}}"
+                                      SelectedValuePath="IdVehiculo" DisplayMemberPath="Matricula" SelectedValue="{Binding Formulario.IdVehiculo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            <Label Content="Fecha"/>
+                            <DatePicker SelectedDate="{Binding Formulario.Fecha, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            <Label Content="Descripción"/>
+                            <TextBox Text="{Binding Formulario.Descripcion, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            <Label Content="Estado"/>
+                            <ListBox ItemsSource="{Binding DataContext.EstadosReparacion, RelativeSource={RelativeSource AncestorType=Window}}" SelectedItem="{Binding Formulario.Estado, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            <StackPanel Orientation="Horizontal" Margin="0,12,0,0">
+                                <Button Content="Nuevo" Command="{Binding Nuevo}"/>
+                                <Button Content="Guardar" Command="{Binding Guardar}"/>
+                                <Button Content="Borrar" Command="{Binding Borrar}"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </GroupBox>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Asignaciones">
+                <Grid Margin="12" DataContext="{Binding Trabajos}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="255"/>
+                    </Grid.ColumnDefinitions>
+                    <DataGrid ItemsSource="{Binding Filas}" SelectedItem="{Binding Seleccionado, Mode=TwoWay}"
+                              AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Reparación (ID)" Binding="{Binding IdReparacion}" Width="*"/>
+                            <DataGridTextColumn Header="Mecánico (ID)" Binding="{Binding IdMecanico}" Width="*"/>
+                            <DataGridTextColumn Header="Horas trabajadas" Binding="{Binding HorasTrabajadas}" Width="*"/>
+                            <DataGridTextColumn Header="Coste por hora (€)" Binding="{Binding CosteHora}" Width="*"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <GroupBox Grid.Column="1" Header="Ficha" Margin="12,0,0,0">
+                        <StackPanel Margin="10">
+                            <Label Content="Reparación"/>
+                            <ComboBox ItemsSource="{Binding DataContext.Reparaciones.Filas, RelativeSource={RelativeSource AncestorType=Window}}"
+                                      SelectedValuePath="IdReparacion" DisplayMemberPath="Descripcion" SelectedValue="{Binding Formulario.IdReparacion, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            <Label Content="Mecánico"/>
+                            <ComboBox ItemsSource="{Binding DataContext.Mecanicos.Filas, RelativeSource={RelativeSource AncestorType=Window}}"
+                                      SelectedValuePath="IdMecanico" DisplayMemberPath="Nombre" SelectedValue="{Binding Formulario.IdMecanico, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            <Label Content="Horas trabajadas"/>
+                            <TextBox Text="{Binding Formulario.HorasTrabajadas, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            <Label Content="Coste por hora (€)"/>
+                            <TextBox Text="{Binding Formulario.CosteHora, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            <StackPanel Orientation="Horizontal" Margin="0,12,0,0">
+                                <Button Content="Nuevo" Command="{Binding Nuevo}"/>
+                                <Button Content="Guardar" Command="{Binding Guardar}"/>
+                                <Button Content="Borrar" Command="{Binding Borrar}"/>
+                            </StackPanel>
+                            <Button Content="Calcular incentivo" Margin="0,10,0,0"
+                                    Command="{Binding DataContext.Calcular, RelativeSource={RelativeSource AncestorType=Window}}"/>
+                        </StackPanel>
+                    </GroupBox>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Facturas">
+                <Grid Margin="12" DataContext="{Binding Facturas}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="255"/>
+                    </Grid.ColumnDefinitions>
+                    <DataGrid ItemsSource="{Binding Filas}" SelectedItem="{Binding Seleccionado, Mode=TwoWay}"
+                              AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Reparación (ID)" Binding="{Binding IdReparacion}" Width="*"/>
+                            <DataGridTextColumn Header="Importe (€)" Binding="{Binding Importe}" Width="*"/>
+                            <DataGridTextColumn Header="Fecha" Binding="{Binding Fecha, StringFormat=d}" Width="*"/>
+                            <DataGridTextColumn Header="Estado" Binding="{Binding Resultado}" Width="*"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <GroupBox Grid.Column="1" Header="Ficha" Margin="12,0,0,0">
+                        <StackPanel Margin="10">
+                            <Label Content="Reparación"/>
+                            <ComboBox ItemsSource="{Binding DataContext.Reparaciones.Filas, RelativeSource={RelativeSource AncestorType=Window}}"
+                                      SelectedValuePath="IdReparacion" DisplayMemberPath="Descripcion" SelectedValue="{Binding Formulario.IdReparacion, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            <Label Content="Importe (€)"/>
+                            <TextBox Text="{Binding Formulario.Importe, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            <Label Content="Fecha"/>
+                            <DatePicker SelectedDate="{Binding Formulario.Fecha, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            <Label Content="Estado"/>
+                            <ListBox ItemsSource="{Binding DataContext.EstadosFactura, RelativeSource={RelativeSource AncestorType=Window}}" SelectedItem="{Binding Formulario.Resultado, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            <StackPanel Orientation="Horizontal" Margin="0,12,0,0">
+                                <Button Content="Nuevo" Command="{Binding Nuevo}"/>
+                                <Button Content="Guardar" Command="{Binding Guardar}"/>
+                                <Button Content="Borrar" Command="{Binding Borrar}"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </GroupBox>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Incentivos">
+                <DataGrid ItemsSource="{Binding Incentivos}" AutoGenerateColumns="False" IsReadOnly="True" Margin="12">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Reparación" Binding="{Binding IdReparacion}" Width="100"/>
+                        <DataGridTextColumn Header="Mecánico" Binding="{Binding IdMecanico}" Width="90"/>
+                        <DataGridTextColumn Header="Fecha" Binding="{Binding Fecha, StringFormat=g}" Width="140"/>
+                        <DataGridTextColumn Header="Importe" Binding="{Binding Importe, StringFormat=C2}" Width="95"/>
+                        <DataGridTextColumn Header="Estado" Binding="{Binding Estado}" Width="130"/>
+                        <DataGridTextColumn Header="Detalle" Binding="{Binding Detalle}" Width="*"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </TabItem>
+        </TabControl>
+    </DockPanel>
+</Window>
