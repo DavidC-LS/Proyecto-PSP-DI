@@ -58,7 +58,15 @@ El ejemplo SQL tiene una asignación de 2,50 horas a 30 €/hora. Su mano de obr
 | Diego González y David Cordón | Documento general del proyecto. |
 | Diego González | Documento de Named Pipes y organización del proyecto. |
 
-La implementación, las pruebas y esta memoria se prepararon con ayuda de Codex.
+## Uso de la inteligencia artificial
+
+El enunciado solo permite usar la IA como apoyo. El código de las dos aplicaciones lo escribimos nosotros. Estos son los puntos en los que usamos la IA:
+
+| Herramienta | Para qué la usamos | Qué hicimos nosotros |
+|---|---|---|
+| Codex | Revisar el código que habíamos escrito y señalar o corregir errores. | Escribimos el código de las dos aplicaciones y decidimos qué correcciones aplicar. |
+| Codex | Ayudar a redactar esta memoria. | Revisamos el texto y lo ajustamos a lo que habíamos hecho. |
+| Claude | Revisar el estado del proyecto antes de la entrega: qué faltaba según la guía y qué fallos había en el código. | Los cambios y los comentarios del código los escribimos nosotros. |
 
 ## Dificultades y soluciones
 
